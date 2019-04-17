@@ -12,8 +12,9 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 io.on('connect', socket =>{
-	socket.on('connectRoom', box =>{
-		socket.join(box)
+	socket.on('connectRoom', user =>{
+		console.log(`${user.username} join`)
+		socket.join(user._id)
 	})
 });
 
