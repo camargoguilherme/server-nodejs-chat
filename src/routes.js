@@ -10,7 +10,8 @@ const UserController = require('./controllers/UserController');
 
 // Routes para User
 routes.post('/user', UserController.store)
-routes.put('/user/:id', UserController.update)
+routes.put('/user', UserController.update)
 routes.post('/login', UserController.authenticate)
+routes.post('/auth', UserController.isAuthenticate)
 
 module.exports  = routes;

@@ -6,7 +6,7 @@ var User = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true,
+    //required: true,
     trim: true
   },
   username: {
@@ -19,9 +19,14 @@ var User = new mongoose.Schema({
     type: String,
     required: true,
   },
-  fullname:{
+  name:{
     type: String,
-    required: true,
+    //required: true,
+    trim: true
+  },
+  logged:{
+    type: Boolean,
+    default: false
   }
 });
 
@@ -45,7 +50,7 @@ User.methods = {
       _id: this._id,
       username: this.username,
       email: this.email,
-      fullname: this.fullname,
+      name: this.name,
       token: this.createToken()
     }
   },
@@ -53,8 +58,8 @@ User.methods = {
 
 User.pre('save', function(next) {
   console.log('pre save password: ' + this.password);
-  if (this.isModified('password')) // If the pw has been modified, then encrypt it again
-      this.password = bcrypt.hashSync(this.password);
+  //if (this.isModified('password')) // If the pw has been modified, then encrypt it again
+  this.password = bcrypt.hashSync(this.password);
   next();
 });
 
