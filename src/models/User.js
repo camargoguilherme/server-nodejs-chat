@@ -19,14 +19,17 @@ var User = new mongoose.Schema({
     type: String,
     required: true,
   },
-  name:{
+  name: {
     type: String,
     //required: true,
     trim: true
   },
-  logged:{
+  logged: {
     type: Boolean,
     default: false
+  },
+  token: {
+    type: String
   }
 });
 
@@ -39,11 +42,13 @@ User.methods = {
   },
   createToken() {
     // create a token
-    var token = jwt.sign({ id: this._id }, process.env.JWT_WORD || config.secret, {
+    var token = jwt.sign({
+      id: this._id
+    }, process.env.JWT_WORD || config.secret, {
       //expiresIn: 86400 // expires in 24 hours
     });
-    return token   
-  },  
+    return token
+  },
   toJson() {
     return {
       auth: true,
@@ -56,7 +61,7 @@ User.methods = {
   },
 };
 
-User.pre('save', function(next) {
+User.pre('save', function (next) {
   console.log('pre save password: ' + this.password);
   //if (this.isModified('password')) // If the pw has been modified, then encrypt it again
   this.password = bcrypt.hashSync(this.password);
