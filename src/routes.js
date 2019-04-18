@@ -6,6 +6,11 @@ const multerConfig = require('./config/multer');
 const MessageController = require('./controllers/MessageController');
 const UserController = require('./controllers/UserController');
 
+// Route Home
+routes.get('/',(req, res) =>{
+  res.json({ name: 'Server Chat', status: 'ok' })
+})
+
 // Routes para Message
 
 // Routes para User
