@@ -2,8 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose'); 
 const path = require('path');
 const cors = require('cors');
-const dotenv = require('dotenv');
-dotenv.config();
+var dotenv;
+
+if(process.env.NODE_ENV === 'DEVELOPMENT' ){
+	dotenv = require('dotenv');
+	dotenv.config();
+}
 
 const app = express();
 app.use(cors());
