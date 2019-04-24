@@ -1,26 +1,22 @@
 const mongoose = require('mongoose');
 
-const Message = new mongoose.Schema({
-  text:{
+const Chat = new mongoose.Schema({
+  title:{
     type: String,
     require: true
   },
-  user:{
+  users:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  },
-  chat:{
+  }],
+  messages:[{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chat'
-  },
-  status:{
-    type: Boolean,
-    default: false
-  }
+    ref: 'Message'
+  }]
 },{
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true }
 });
 
-module.exports = mongoose.model('Message', Message);
+module.exports = mongoose.model('Chat', Chat);
