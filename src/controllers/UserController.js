@@ -105,7 +105,7 @@ class UserController {
   }
 
   // verify 
-  async isAuthenticate(req, res) {
+  async isAuthenticate(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token)
       return res.json({
@@ -119,7 +119,8 @@ class UserController {
           auth: false,
           message: 'Falha ao autenticar token'
         });
-      return res.json({auth: true, message: 'Usuario autenticado com sucesso'})
+
+      return next();
     });
   }
 
