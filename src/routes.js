@@ -32,6 +32,6 @@ routes.put('/user', UserController.isAuthenticate, UserController.update)
 // Route para Login
 routes.post('/login', UserController.authenticate)
 // Route para Authencication
-routes.post('/auth', UserController.isAuthenticate)
+routes.get('/auth', UserController.isAuthenticate, UserController.auth)
 
 module.exports = routes;

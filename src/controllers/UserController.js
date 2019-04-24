@@ -124,6 +124,10 @@ class UserController {
     });
   }
 
+  auth(req, res){
+    res.json({auth: true, message: 'Usuario autenticado com sucesso'})
+  }
+
   async findAll(req, res) {
     const users = await User.find({
       logged: true
