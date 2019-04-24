@@ -20,7 +20,9 @@ io.on('connect', socket =>{
 		console.log(`${user.username} join`)
 		socket.join(user._id)
 	})
-});
+	
+})
+
 
 mongoose.connect(process.env.URL_DB, 
 	{ 

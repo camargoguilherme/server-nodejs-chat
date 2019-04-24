@@ -18,11 +18,23 @@ class UserController {
   }
 
   async update(req, res) {
-    // create a user
-    console.log(req.body)
+    const token = req.headers['x-access-token'];
+    let idUser;
+    if (!token)
+      return res.json({
+        auth: false,
+        message: 'Nenhum token fornecido'
+      });
 
-    await User.findOneAndUpdate({
-        email: req.body.email
+    jwt.verify(token, process.env.JWT_WORD || 'JWT_WORD', async function (err, decoded) {
+      if (err)
+        return res.json({
+          auth: false,
+          message: 'Falha ao autenticar token'
+        });
+
+      await User.findOneAndUpdate({
+        _id: decoded.id
       },
       req.body, {
         new: true
@@ -33,6 +45,29 @@ class UserController {
         }
         user.save();
         res.json(user.toJson());
+      });
+    });
+  }
+
+  async reset(req, res) {
+    // create a user
+    console.log(req.body)
+
+    await User.findOneAndUpdate({
+        email: req.params.email
+      },
+      req.body, {
+        new: true
+      },
+      function (error, user) {
+        if (error) {
+          return res.json(error)
+        }
+        if(!user){
+          return res.json({auth: false, message:'E-mail nao está vinculado a nenum usuário'})
+        }
+        user.save();
+        return res.json(user.toJson());
       });
 
   }
@@ -72,7 +107,6 @@ class UserController {
   // verify 
   async isAuthenticate(req, res, next) {
     const token = req.headers['x-access-token'];
-
     if (!token)
       return res.json({
         auth: false,
@@ -97,12 +131,13 @@ class UserController {
       _id: 1,
       username: 1,
       name: 1,
-      email: 1
+      email: 1,
+      token: 1
     })
     
-    console.log(users)
+    //console.log(users)
 
-    res.json(users)
+    return res.json(users)
   }
 }
 
